@@ -13,6 +13,9 @@ const feedRoutes = require('./routes/feed');
 const app = express();
 
 const Produits = require('./models/produits');
+require('dotenv').config({ debug: true, override: false })
+console.log("DB:", process.env.DATABASE_URL)
+
 
 
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
@@ -41,7 +44,7 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message: message });
   });
   
-mongoose.connect('mongodb+srv://root:root@cluster0.gslftzi.mongodb.net/?retryWrites=true&w=majority',{ useNewUrlParser: true,
+mongoose.connect(process.env.DATABASE_URL,{ useNewUrlParser: true,
 useUnifiedTopology: true })
 .then(() => {
     console.log('Connexion à MongoDB réussie !')
