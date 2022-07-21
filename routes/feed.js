@@ -52,7 +52,7 @@ router.get('/produit/:produitId', feedController.getProduit);
 
 
 router.put(
-    '/post/:postId',
+    '/produit/edit/:produitId',
     [
       body('title')
         .trim()
@@ -60,9 +60,11 @@ router.put(
       body('content')
         .trim()
         .isLength({ min: 5 })
-    ],
+    ],upload.single('file'),
     feedController.updatePost
   );
 // router.post('/img',upload.single('file'), feedController.getImg);
+
+router.delete('/produit/delete/:produitId', feedController.deleteProduit);
 
 module.exports = router;
