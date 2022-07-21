@@ -2,6 +2,14 @@ const { validationResult } = require('express-validator/check');
 const produits = require('../models/produits.js');
 const Produits = require('../models/produits.js');
 
+
+
+
+
+
+
+
+
 // exports.getProduits = (req, res, next) => {
 //   res.status(200).json({
 //     posts: [
@@ -61,32 +69,33 @@ exports.getProduits = (req, res, next) => {
 };
 
 exports.createProduit = (req, res, next) => {
-  console.log(req.body)
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const error = new Error('Validation failed, entered data is incorrect.');
-    error.statusCode = 422;
-    throw error;
-  }
-  // if (!req.file) {
-  //   const error = new Error('No image provided.');
+  console.log('req.file 1: ', req.file)
+
+  //  const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   const error = new Error('Validation failed, entered data is incorrect.');
   //   error.statusCode = 422;
   //   throw error;
   // }
-  // const imageUrl = 'C:\use'
+  if (!req.file) {
+    const error = new Error('No image provided.');
+    error.statusCode = 422;
+    throw error;
+  }
+  const imgUrl = req.file.path;
   const title = req.body.title;
   const content = req.body.content;
   const produits = new Produits({
     title: title,
     content: content,
-    imageUrl: './image/image.jpg',
+    imageUrl: imgUrl,
     creator: { name: 'Sciences-u' }
   });
   produits
     .save()
     .then((result) => {
       res.status(201).json({
-        message: 'Post created successfully!',
+        message: 'Produit created successfully!',
         produits: result
       });
     })
@@ -95,7 +104,9 @@ exports.createProduit = (req, res, next) => {
         err.statusCode = 500;
       }
       next(err);
-    });
+    }
+    );
+   
 };
 
 exports.getProduit = (req, res, next) => {
@@ -116,3 +127,18 @@ exports.getProduit = (req, res, next) => {
       next(err);
     });
 };
+
+exports.getImg = (req, res, next) =>{
+  console.log(req.file)
+  res.send('ok')
+};
+
+exports.updatePost = (req, res, next) => {
+  const postId = req.params.postId;
+  console.log('req.file update: ', req.file)
+
+  const title = req.body.title;
+  const content = req.body.content;
+  let imageUrl = req.body.image;
+
+}
