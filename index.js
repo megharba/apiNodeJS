@@ -9,12 +9,11 @@ const multer = require('multer');
 
 
 const feedRoutes = require('./routes/feed');
-
+const authRoutes = require('./routes/auth');
 const app = express();
 
 const Produits = require('./models/produits');
 require('dotenv').config({ debug: true, override: false })
-console.log("DB:", process.env.DATABASE_URL)
 
 
 
@@ -31,6 +30,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/feed', feedRoutes);
+app.use('/auth', authRoutes);
 
 // app.post('/test', upload.single('file'), (req, res) => {
 //     console.log(req.file)
