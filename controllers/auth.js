@@ -1,10 +1,18 @@
+/**
+ * auth.js
+ * 
+ * Création des utilisateurs 
+ */
+
+// Configuration des routes d'authentification
 const { validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
+// Création des tokens d'authentification
 const jwtoken = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-
+// Création des utilisateurs
 exports.signup = (req, res, next) => {
     console.log(req.body);
   const errors = validationResult(req);
@@ -38,7 +46,7 @@ exports.signup = (req, res, next) => {
       next(err);
     });
 };
-
+// Implémentation de la fonction login
 exports.login = (req, res, next) => {
   console.log('test', process.env.JWT_KEY)
   const email = req.body.email;
